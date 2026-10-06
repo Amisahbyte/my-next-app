@@ -1,41 +1,47 @@
-'use client';
+"use client";
 
-// import { createContext, useContext, useState } from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-const FavoriteContext = createContext();
+const FavoriteContext = createContext(undefined);
 
 export function FavoriteProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
 
-  // TAMBAHKAN FUNGSI INI:
-  const toggleFavorite = (user) => {
-    setFavorites((prev) => {
-      const isExist = prev.some((fav) => fav.id === user.id);
-      if (isExist) {
-        return prev.filter((fav) => fav.id !== user.id);
-      } else {
-        return [...prev, user];
-      }
+  useEffect(() => {
+    fetch("/api/favorites")
+      .then((res) => res.json())
+      .then(setFavorites);
+  }, []);
+
+  async function addFavorite(user) {
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
     });
-  };
 
-  const addFavorite = (user) => {
-    setFavorites((prev) => [...prev, user]);
-  };
+    if (res.ok) {
+      const saved = await res.json();
+      setFavorites((prev) => [...prev, saved]);
+    }
+  }
 
-  const removeFavorite = (userId) => {
-    setFavorites((prev) => prev.filter((fav) => fav.id !== userId));
-  };
+  async function removeFavorite(userId) {
+    const res = await fetch(`/api/favorites/${userId}`, { method: "DELETE" });
 
-  const isFavorite = (userId) => {
-    return favorites.some((fav) => fav.id === userId);
-  };
+    if (res.ok) {
+      setFavorites((prev) => prev.filter((f) => f.id !== userId));
+    }
+  }
 
- return (
-    <FavoriteContext.Provider
-      value={{ favorites, addFavorite, removeFavorite, toggleFavorite, isFavorite }}
-    >
+  function isFavorite(userId) {
+    return favorites.some((f) => f.id === userId);
+  }
+
+  const value = { favorites, addFavorite, removeFavorite, isFavorite };
+
+  return (
+    <FavoriteContext.Provider value={value}>
       {children}
     </FavoriteContext.Provider>
   );
@@ -43,8 +49,8 @@ export function FavoriteProvider({ children }) {
 
 export function useFavorite() {
   const context = useContext(FavoriteContext);
-  if (!context) {
-    throw new Error("Gunakan FavoriteProvider di layout.js");
+  if (context === undefined) {
+    throw new Error("useFavorite harus dipakai di dalam <FavoriteProvider>");
   }
   return context;
 }

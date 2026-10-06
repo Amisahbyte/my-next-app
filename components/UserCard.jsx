@@ -1,4 +1,10 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { Heart } from "lucide-react";
+
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useFavorite } from "@/context/FavoriteContext";
+import { cn } from "@/lib/utils";
 
 import {
   Card,
@@ -7,47 +13,61 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { useFavorite } from "@/context/FavoriteContext";
-
 export default function UserCard({ user }) {
-  const { toggleFavorite, isFavorite } = useFavorite();
-  const liked = isFavorite(user.id);
+  const { isFavorite, addFavorite, removeFavorite } = useFavorite();
+  const favorited = isFavorite(user.id);
+
+  const initials = user.name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
-    <Card className={"bg-[#384a64]"}>
+    <Card className="group border border-white/10 bg-[#384a64] transition-all hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/20">
       <CardHeader>
-        <CardTitle>{user.name}</CardTitle>
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/10 text-sm font-semibold">
+            {initials}
+          </div>
+          <CardTitle>{user.name}</CardTitle>
+        </div>
       </CardHeader>
 
       <CardContent>
-        <p className="text-sm text-[#FFFFFF]">
-          {user.email}
-        </p>
+        <p className="text-sm text-muted-foreground">{user.email}</p>
 
-        <p className="mt-1 text-sm text-[#FFFFFF]">
+        {/* <p className="mt-1 text-sm text-muted-foreground">
           {user.company.name}
+        </p> */}
+
+       <p className="mt-1 text-sm text-muted-foreground">
+          {user.company?.name || "No Company"}
         </p>
 
-        {/* [DITAMBAHKAN]: Menggunakan container flex agar tombol View Profile dan Favorite berdampingan rapi */}
-        <div className="mt-4 flex items-center gap-3">
-          <Button className="bg-[#0cf5d6]">
+        <div className="mt-4 flex gap-2">
+          <a
+            href={`https://jsonplaceholder.typicode.com/users/${user.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants(), "flex-1 rounded-full")}
+          >
             View Profile
-          </Button>
+          </a>
 
-          {/* [DITAMBAHKAN]: Tombol Favorite interaktif dengan kondisi klik */}
           <Button
-            onClick={() => toggleFavorite(user)}
-            className={
-              liked
-                ? "bg-white text-black hover:bg-white/90"
-                : "bg-transparent border border-white/20 text-white hover:bg-white/10"
+            variant={favorited ? "secondary" : "outline"}
+            className="rounded-full"
+            aria-pressed={favorited}
+            onClick={() =>
+              favorited ? removeFavorite(user.id) : addFavorite(user)
             }
           >
-            {liked ? <span className="text-red-500 text-xl">♥</span> : <span className="text-white text-lg">♡</span>} {liked ?
-            "Favourite" : "Add Favourite"}
+            <Heart className={favorited ? "fill-red-500 text-red-500" : ""} />
+            {favorited ? "Favourite" : "Add Favourite"}
           </Button>
         </div>
-        
       </CardContent>
     </Card>
   );

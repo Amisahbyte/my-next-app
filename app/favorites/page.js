@@ -12,7 +12,7 @@ export default function FavoritesPage() {
       <h1 className="text-3xl font-bold tracking-tight md:text-4xl mt-1 text-white">My Favorite Users</h1>
       <p className="text-sm text-muted-foreground mt-2">Data ini diambil langsung dari FavoriteContext.</p>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {favorites.length === 0 ? (
           <p className="text-muted-foreground">Belum ada user yang ditambahkan ke favorite.</p>
         ) : (
