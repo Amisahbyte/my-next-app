@@ -1,18 +1,16 @@
-// Latihan 1. Logger
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const waktu = new Date().toISOString();
-  console.log(`[${waktu}] ${request.method} ${request.nextUrl.pathname}`);
+  const isMaintenance = process.env.MAINTENANCE_MODE === "true";
+  const isMaintenancePage = request.nextUrl.pathname === "/maintenance";
 
-  return NextResponse.next(); // lanjutkan request seperti biasa
+  if (isMaintenance && !isMaintenancePage) {
+    return NextResponse.redirect(new URL("/maintenance", request.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/api/:path*"], // middleware ini cuma jalan untuk request ke /api/...
+  matcher: ["/((?!_next|favicon.ico).*)"], // semua path, kecuali file internal Next.js
 };
-
-
-// -------------------------------------------------------------------------------------//
-
-

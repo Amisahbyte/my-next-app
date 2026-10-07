@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { submitContactForm } from "./action";
+import { submitContactForm } from "./actions";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "hello@mywebsite.com" },
@@ -27,7 +27,6 @@ export default function Contact() {
     setMessage,
     setSubmitted,
   } = useUser();
-
   
 async function handleSubmit(event) {
   event.preventDefault();
