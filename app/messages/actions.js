@@ -1,17 +1,18 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { messages } from "@/lib/db";
+import { createClient } from "@/lib/supabase/server";
 
-export async function deleteMessageAction(id) {
-  // Cari posisi pesan yang mau dihapus
-  const index = messages.findIndex((m) => m.id === id);
-  
-  // Kalau ketemu, hapus dari daftar
-  if (index !== -1) {
-    messages.splice(index, 1);
+export async function deleteMessageAction(formData) {
+  const supabase = await createClient();
+  const id = Number(formData.get("id"));
+
+  const { error } = await supabase.from("messages").delete().eq("id", id);
+
+  if (error) {
+    return { success: false, error: error.message };
   }
 
-  // Perbarui halaman otomatis
   revalidatePath("/messages");
+  return { success: true };
 }
