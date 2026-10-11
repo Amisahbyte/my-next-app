@@ -42,7 +42,7 @@ export default function Home() {
 
         <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
           <div className="animate-fade-up mx-auto max-w-3xl text-center">
-            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#384a64] px-4 py-1.5 text-sm text-[#FFFFFF]">
+            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-foreground/5 px-4 py-1.5 text-sm text-muted-foreground">
               <Sparkles className="size-3.5" />
               Welcome to MyWebsite
             </div>
@@ -59,7 +59,7 @@ export default function Home() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/services"
-                className={cn(buttonVariants({ size: "lg" }), "rounded-full px-6 shadow-lg shadow-primary/20 bg-[#0cf5d6]")}
+                className={cn(buttonVariants({ size: "lg" }), "rounded-full px-6 shadow-lg shadow-primary/20")}
               >
                 Explore Services
                 <ArrowRight className="size-4" />
@@ -93,7 +93,7 @@ export default function Home() {
           {features.map(({ icon: Icon, title, description }) => (
             <Card
               key={title}
-              className="group border border-white/10 bg-[#384a64] transition-all hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/20"
+              className="group border border-white/10 bg-foreground/[0.03] transition-all hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/20"
             >
               <CardHeader>
                 <div className="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
@@ -110,7 +110,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#384a64]  px-8 py-14 text-center">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-foreground/[0.03] px-8 py-14 text-center">
           <div className="bg-grid bg-radial-fade absolute inset-0 opacity-60" />
 
           <div className="relative">
@@ -126,7 +126,7 @@ export default function Home() {
               href="/contact"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "mt-8 rounded-full px-6 bg-[#0cf5d6]"
+                "mt-8 rounded-full px-6"
               )}
             >
               Get in touch
