@@ -1,11 +1,7 @@
-"use server";
-
-import { revalidatePath } from "next/cache"; // ← tambah
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";   // ganti import
 
 export async function submitContactForm(formData) {
-  const supabase = await createClient();
-
+  const supabase = await createClient();                // tambah baris ini
   const name = formData.get("name");
   const email = formData.get("email");
   const message = formData.get("message");
@@ -26,3 +22,4 @@ export async function submitContactForm(formData) {
 
   return { success: true };
 }
+
