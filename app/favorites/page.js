@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { HeartOff } from "lucide-react";
 
 import UserCard from "@/components/UserCard";
+import { buttonVariants } from "@/components/ui/button";
 import { useFavorite } from "@/context/FavoriteContext";
+import { cn } from "@/lib/utils";
 
 export default function FavoritesPage() {
   const { favorites } = useFavorite();
@@ -24,9 +26,9 @@ export default function FavoritesPage() {
           </p>
         </div>
 
-        {favorites.length > 0 ? (
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {favorites.map((favorite) => (
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {favorites.length > 0 ? (
+            favorites.map((favorite) => (
               <UserCard
                 key={favorite.id}
                 user={{
@@ -36,20 +38,20 @@ export default function FavoritesPage() {
                   company: { name: favorite.app_users.company_name },
                 }}
               />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-16 flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
-            <Heart className="size-8" />
-            <p>Belum ada user favorit. Tandai dulu dari User Directory.</p>
-            <Link
-              href="/users"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Buka User Directory →
-            </Link>
-          </div>
-        )}
+            ))
+          ) : (
+            <div className="col-span-full flex flex-col items-center gap-3 py-16 text-center text-muted-foreground">
+              <HeartOff className="size-8" />
+              <p>Belum ada user favorit.</p>
+              <Link
+                href="/users"
+                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "rounded-full")}
+              >
+                Lihat User Directory
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
