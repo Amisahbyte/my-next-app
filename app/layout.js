@@ -40,7 +40,8 @@ export default async function RootLayout({ children }) {
       lang="en"
       className={`dark ${fontSans.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
+      {/* <body className="flex min-h-screen flex-col bg-background text-foreground antialiased"> */}
+      <body className="flex min-h-screen flex-col bg-[#1F2937] text-[#FFFFFF] antialiased">
         <AuthProvider user={user ? { id: user.id, email: user.email } : null}>
           <FavoriteProvider>
             <Navbar />

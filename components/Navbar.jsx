@@ -74,7 +74,8 @@ export default function Navbar() {
         ) : (
           <Link
             href="/login"
-            className={cn(buttonVariants({ size: "sm" }), "rounded-full")}
+            // className={cn(buttonVariants({ size: "sm" }), "rounded-full")}
+            className={cn(buttonVariants({ size: "sm" }), "rounded-full bg-[#384a64] text-white border-none")}
           >
             Login
           </Link>
