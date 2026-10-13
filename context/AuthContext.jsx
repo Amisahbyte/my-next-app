@@ -6,7 +6,12 @@ const AuthContext = createContext(undefined);
 
 export function AuthProvider({ user, children }) {
   const value = { user, isLoggedIn: !!user };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
