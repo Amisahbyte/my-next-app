@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext"; // ← baru
+import { useAuth } from "@/context/AuthContext";
 import { useFavorite } from "@/context/FavoriteContext";
 
 const links = [
@@ -18,7 +18,7 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { isLoggedIn } = useAuth(); // ← baru
+  const { isLoggedIn } = useAuth();
   const { favorites } = useFavorite();
 
   // Menu Favorite baru muncul setelah ada user yang difavoritkan
@@ -59,7 +59,6 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* ← tombol "Get in touch" diganti dengan Login / Logout */}
         {isLoggedIn ? (
           <form action="/auth/signout" method="post">
             <button
